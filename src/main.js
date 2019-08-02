@@ -5,11 +5,15 @@ import router from './router'
 import './lib/mui/css/mui.min.css'
 import './lib/mui/css/icons-extra.css'
 // 按需导入 Mint-UI 组件
-import { Header} from 'mint-ui'
+import { Header, Swipe, SwipeItem} from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import axios from 'axios';
+Vue.prototype.axios = axios;
 Vue.config.productionTip = false
 
 Vue.component(Header.name , Header);  //按需导入,需要注册组件
+Vue.component(Swipe.name, Swipe); //轮播图组件
+Vue.component(SwipeItem.name, SwipeItem);//轮播图组件
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
