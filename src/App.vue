@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 顶部 Header 区域 -->
-    <mt-header fixed title="一个vueDemo"></mt-header>
+    <mt-header fixed title="vue移动端应用"></mt-header>
     <!-- 中间的路由 router-view 区域 -->
     <transition>
       <router-view></router-view>
@@ -37,6 +37,7 @@ export default {
 <style scoped lang="less">
 .app-container{
   padding-top: 40px;
+  padding-bottom: 50px;
   overflow-x: hidden;
 }
 .v-enter,{
