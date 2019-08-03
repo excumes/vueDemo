@@ -1,5 +1,10 @@
 <template>
   <div class="goods-detail-container">
+    <transition @before-enter="beforeEnter"
+                @enter="enter"
+                @after-enter="afterEnter">
+        <div class="ball" v-show="ballflag" ref="ball"></div>
+    </transition>
     <div class="god">
       <!-- 图片介绍 -->
       <div class="pho-intro">
@@ -31,7 +36,7 @@
               </div>
               <div>
                 <div class="mui-btn mui-btn-primary">立即购买</div>
-                <div class="mui-btn mui-btn-danger">加入购物车</div>
+                <div class="mui-btn mui-btn-danger" @click="ballfun">加入购物车</div>
               </div>
             </div>
           </div>
@@ -80,13 +85,17 @@ export default{
         return{
             id:this.$route.params.id,
             god: '',
-            number: 1
+            number: 1,
+            ballflag: false
         }
     },
     created(){
         this.getInfo();
     },
     methods:{
+        ballfun(){
+            this.ballflag = !this.ballflag;
+        },
         getInfo(){
             this.axios.get("http://120.77.181.41:3000/api/getgoddetail?godId=" + this.id)
                     .then(res => {
@@ -103,6 +112,25 @@ export default{
         goGodImgIntro() {
       // 路由添加到商品图文详细页面
       this.$router.push("/home/imgInfo/" + this.god.godId);
+        },
+        beforeEnter(el) {
+            el.style.transform = "translate(0,0)";
+        },
+        enter(el,done){
+            el.offsetWidth;
+            //获取小球在页面的位置
+            const ballPosition = this.$refs.ball.getBoundingClientRect();
+            // badge 是购物车上的数字
+            const badgePostion = document.getElementById('badge').getBoundingClientRect();
+            const xDist = badgePostion.left - ballPosition.left;
+            const yDist = badgePostion.top - ballPosition.top;
+            el.style.transform = `translate(${xDist}px,${yDist}px)`;
+            el.style.transition = "all 0.5s ease";
+            done() //done()代表执行 afterEnter
+        },
+        afterEnter(el){
+            console.log('afterEnter')
+            this.ballflag = !this.ballflag
         }
     },
     watch: {
@@ -189,5 +217,15 @@ export default{
 .new-price {
   font-size: 16px;
   color: #dd0000;
+}
+.ball{
+    position:absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #f40;
+    z-index: 99;
+    top: 460px;
+    left: 146px;
 }
 </style>
