@@ -51,9 +51,12 @@ export default{
         },
         send(){
             var day = new Date();
-            
-            this.commentList.push({comDate:day,comId:day.getTime(),content:this.content});
-            this.content = '';
+            if(this.content && this.content.trim().length !==0){
+                this.commentList.push({comDate:day,comId:day.getTime(),content:this.content});
+                this.content = '';
+            }else{
+                Toast('内容不能为空哦')
+            }
         }
     }
 }
